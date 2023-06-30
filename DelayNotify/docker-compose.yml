@@ -1,0 +1,27 @@
+version: '3'
+services:
+    delaynotify:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        ports:
+            - 9090:90
+        environment:
+            - MYSQL_HOST=database
+            - MYSQL_PORT=3306
+            - MYSQL_DATABASE=your_database_name
+            - MYSQL_USER=your_mysql_user
+            - MYSQL_PASSWORD=your_mysql_password
+        depends_on:
+            - database
+    database:
+        image: mysql:latest
+        environment:
+            - MYSQL_DATABASE=your_database_name
+            - MYSQL_USER=your_mysql_user
+            - MYSQL_PASSWORD=your_mysql_password
+            - MYSQL_ROOT_PASSWORD=your_mysql_root_password
+        volumes:
+            - db_data:/var/lib/mysql
+volumes:
+    db_data:

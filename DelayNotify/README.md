@@ -1,66 +1,101 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Daily Notify
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+# Project Setup
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Make sure you have Laravel installed. If not, visit the Laravel website for installation instructions.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Clone your project repository or navigate to the project directory.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Install project dependencies by running the following command in your terminal:
 
-## Learning Laravel
+# Run locally
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Install the required php packages
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+composer install
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. install `mysql`
+3. Create a .env file by duplicating the .env.example file:
+```bash
+   cp .env.example .env
+```
 
-## Laravel Sponsors
+4. configure the database connection settings in the .env file according to your MySQL setup:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```bash
+DB_CONNECTION=mysql
+DB_HOST=your_database_host
+DB_PORT=your_database_port
+DB_DATABASE=your_database_name
+DB_USERNAME=your_database_username
+DB_PASSWORD=your_database_password
+```
+5. Run the database migrations to create the required tables:
 
-### Premium Partners
+```bash
+php artisan migrate
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+6.Seed the tables with initial data by running the following command:
 
-## Contributing
+```bash
+php artisan db:seed
+```
+6. This will populate your tables with sample data using the seeders you have created.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Start the development server:
+```bash
+php artisan serve
+```
 
-## Code of Conduct
+You have successfully set up your "DelayNotify" project with Laravel and MySQL. Feel free to explore the application
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+# Api
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
+Sure! Here are the APIs for your "DelayNotify" project:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. Assign Agent to Order API:
+
+``` 
+Endpoint: http://127.0.0.1:8000/api/administration/assign_agent
+Method: POST
+Parameters:
+agent_id: The ID of the agent to be assigned to the delay report order.
+Description: This API is used to assign an agent to a delay report order for further processing.
+```
+2. Vendors Delay Report API:
+
+``` 
+Endpoint: http://127.0.0.1:8000/api/administration/vendors_delay_report
+Method: GET
+Description: This API retrieves a report of delays for all vendors
+```
+
+3. Report Delay API:
+
+```
+Endpoint: http://127.0.0.1:8000/api/v1.0/report_delay/{order_id}
+Method: POST
+Parameters:
+order_id: The ID of the order for which the delay report is being submitted.
+Description: This API is used to submit a delay report for a specific order. The order_id parameter identifies the order for which the delay report is being submitted.
+```
+
+
+# Test
+
+```angular2html
+php artisan test
+```
+
+# docker
+```bash
+docker build -t dailynotify .
+
+docker run --rm dailynotify php artisan migrate
+```

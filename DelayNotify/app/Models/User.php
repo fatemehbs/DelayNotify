@@ -4,8 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -42,4 +44,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public static function createUserIfNotExisted($userId)
+    {
+        $user = self::where('id', $userId)->first();
+        if ($user) {
+            return $user;
+        } else {
+            DB::table('users')->insert([
+                [
+                    'id' => $userId,
+                    'name' => "User {$userId}" ,
+                    'email' => "test{$userId}@example.com",
+                ]
+            ]);
+            return self::where('id', $userId)->first();
+        }
+    }
 }
